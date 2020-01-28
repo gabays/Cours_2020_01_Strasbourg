@@ -222,8 +222,8 @@ source envC/bin/activate
 ````
 On installe Calamari
 ```
-pip3 install calamari_ocr
-pip3 install tensorflow
+$ pip3 install calamari_ocr
+$ pip3 install tensorflow
 ```
 ---
 ## Entraîner un modèle
