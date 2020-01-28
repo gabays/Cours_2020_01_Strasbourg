@@ -57,21 +57,21 @@ Binariser les images dans le fichier ```src``` (les images produites seront tout
 ```[shell]
 $ kraken -I "img/*" -o .png binarize
 # on range les images
-$ mkdir img/bin; mv img/*png img/bin/ 
+$ mkdir img/bin; mv img/*png img/bin/
 ```
 
 Segmenter les images dans le fichier ```img/bin``` (les images produites seront toutes en .json)
 ```[shell]
 $ kraken -I "img/bin/*.png" -o .json segment
 # On range les fichiers
-$ mkdir img/seg; mv img/bin/*json img/seg/ 
+$ mkdir img/seg; mv img/bin/*json img/seg/
 ```
 
 Binariser puis segmenter les images dans le fichier ```img```
 ```[shell]
 $ kraken -I "img/*jpg" -o .json binarize segment
 # on nettoie (on a déjà ces fichiers) répondre "y" si besoin
-$ rm -f img/*json 
+$ rm -f img/*json
 ```
 ---
 
@@ -157,6 +157,8 @@ Trois fichiers apparaissent:
 $ ketos linegen -f Baskerville transcription.txt
 ```
 
+Les données produites se retrouvent dans le dossier ```training_data```, qui est créé pour l'occasion
+
 ```Baskerville``` doit être remplacé par une fonte qui existe sur votre ordinateur
 
 ---
@@ -176,7 +178,7 @@ Il est possible de faire une normalisation des caractère si cela n'a pas fait a
 Il est aussi possible de faire du fine-tuning d'un modèle existant
 
 ```[xml]
-$ cp OCR17.mlmodel OCR17.mlmodel.bk # On fait une sauvegarde  
+$ cp OCR17.mlmodel OCR17.mlmodel.bk # On fait une sauvegarde
 $ ketos train -i OCR17.mlmodel --resize add gt/*.png
 $ rm -f model_{1..50}.mlmodel # on garde uniqument le fichier model_best.mlmodel
 ```
@@ -230,7 +232,7 @@ Nous allons reprendre les fichiers créés avec Kraken.
 Pour lancer un entraînement simple (à utiliser avec un _validation set_)
 
 ```[shell]
-calamari-train --files gt/*png  
+calamari-train --files gt/*png
 ```
 
 Pour lancer un entraînement "complexe" (à utiliser sans _validation set_) de 5 échantillons (_fold_) par défaut utilisés pour un vote final (_voted prediction_)
@@ -243,11 +245,11 @@ calamari-cross-fold-train --files gt/*png --best_models_dir best_models
 
 Prédire
 ```[shell]
-calamari-predict --checkpoint best_models/*.ckpt.json --files gt/*png  
+calamari-predict --checkpoint *.ckpt.json --files gt/*png
 ```
 
 Evaluer le modèle
 ```[shell]
-calamari-eval --gt *.gt.txt
-```
+ calamari-predict --checkpoint *.ckpt.json --files gt/*png
+ ```
 
